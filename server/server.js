@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/scores', require('./routes/scoresRoutes'));
 
 app.use(errorHandler);
 

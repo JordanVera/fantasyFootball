@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    res.status(201).json({
+    return res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -43,8 +43,6 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Invalid User Data');
   }
-
-  res.send('Register Route');
 });
 
 // @description Login a user
@@ -56,7 +54,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    res.status(200).json({
+    return res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -66,8 +64,6 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('Invalid email or password');
   }
-
-  res.send('Login Route');
 });
 
 // @description get currently logged in User
@@ -82,10 +78,27 @@ const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
+// @description get all Users
+// @route /api/users/all
+// @access Private
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({ bullets: { $gt: 0 } }).select(
+    'name email bullets'
+  );
+  return res.status(200).json(users);
+});
+
+// @description Make picks
+// @route /api/users/makePicks/:week
+// @access Private
+const makePicks = asyncHandler(async (req, res) => {
+  console.log('MAKE PICKS ROUTE HIT');
+});
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };
 
-module.exports = { registerUser, loginUser, getMe };
+module.exports = { registerUser, loginUser, getMe, getUsers, makePicks };

@@ -33,6 +33,12 @@ export default function Login() {
     dispatch(reset());
   }, [isError, isSuccess, user, message, navigate, dispatch]);
 
+  const theme = useSelector((state) => state.theme.theme);
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme ? 'dark' : 'light');
+  }, [theme]);
+
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,

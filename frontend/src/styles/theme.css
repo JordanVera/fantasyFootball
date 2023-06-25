@@ -1,0 +1,66 @@
+:root {
+  --body_background: #050505;
+  --body_color: #fff;
+  --grey1: #757575;
+  --grey2: #1f1f1f;
+  --blue: #2999C0;
+  --font_color: #fff;
+  --font_opposite: #000;
+  --btn_color: #fff;
+}
+
+
+[data-theme="light"] {
+  --body_background: #fff;
+  --body_color: #000;
+  --grey1: #757575;
+  --grey2: #1f1f1f;
+  --purple: #A445ED;
+  --font_color: #000;
+  --font_opposite: #fff;
+  --btn_color: #000;
+}
+
+.blue {
+  color: var(--blue) !important
+}
+
+body {
+  background-color: var(--body_background);
+}
+
+h1 {
+  color: var(--font_color);
+}
+
+.header ul li a,
+.header .logo a,
+.themeToggle {
+  color: var(--font_color) !important;
+}
+
+.heading {
+  border: 2px solid var(--blue);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.heading p {
+  color: var(--font_color);
+}
+
+.btn {
+  border: 1px solid #000;
+  background: var(--btn_color);
+  color: var(--font_opposite) !important;
+}
+
+.table th {
+  color: var(--font_color);
+  font-weight: 500;
+  font-size: .8rem;
+}
+
+.table thead tr {
+  border-bottom: 1px solid var(--grey1) !important;
+}

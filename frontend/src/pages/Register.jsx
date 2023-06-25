@@ -58,6 +58,12 @@ export default function Register() {
     }
   };
 
+  const theme = useSelector((state) => state.theme.theme);
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme ? 'dark' : 'light');
+  }, [theme]);
+
   if (isLoading) {
     return <Spinner />;
   }
