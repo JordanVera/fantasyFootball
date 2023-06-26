@@ -64,3 +64,8 @@ h1 {
 .table thead tr {
   border-bottom: 1px solid var(--grey1) !important;
 }
+
+#picksModal .MuiBox-root {
+  background-color: var(--body_background);
+  color: var(--font_color)
+}

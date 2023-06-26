@@ -12,41 +12,6 @@ export default function Home() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
-  const teamsArr = [
-    'ARI',
-    'ATL',
-    'BAL',
-    'BUF',
-    'CAR',
-    'CHI',
-    'CIN',
-    'CLE',
-    'DAL',
-    'DEN',
-    'DET',
-    'GB',
-    'HOU',
-    'IND',
-    'JAX',
-    'KC',
-    'LAC',
-    'LAR',
-    'LV',
-    'MIA',
-    'MIN',
-    'NE',
-    'NO',
-    'NYG',
-    'NYJ',
-    'PHI',
-    'PIT',
-    'SEA',
-    'SF',
-    'TB',
-    'TEN',
-    'WAS',
-  ];
-
   const scoresStatus = useSelector((state) => state.scores.status);
   const theme = useSelector((state) => state.theme.theme);
 

@@ -37,6 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      bullets: user.bullets,
       token: generateToken(user._id),
     });
   } else {
@@ -58,6 +59,7 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      bullets: user.bullets,
       token: generateToken(user._id),
     });
   } else {
@@ -74,17 +76,16 @@ const getMe = asyncHandler(async (req, res) => {
     id: req.user._id,
     email: req.user.email,
     name: req.user.name,
+    bullets: req.user.bullets,
   };
   res.status(200).json(user);
 });
 
-// @description get all Users
+// @description get all Users with active bullets
 // @route /api/users/all
 // @access Private
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({ bullets: { $gt: 0 } }).select(
-    'name email bullets'
-  );
+  const users = await User.find({ bullets: { $gt: 0 } }).select('-password');
   return res.status(200).json(users);
 });
 
@@ -92,7 +93,9 @@ const getUsers = asyncHandler(async (req, res) => {
 // @route /api/users/makePicks/:week
 // @access Private
 const makePicks = asyncHandler(async (req, res) => {
-  console.log('MAKE PICKS ROUTE HIT');
+  const { week } = req.params;
+  console.log(`MAKE PICKS ROUTE HIT FOR WEEK ${week}`);
+  console.log(req.body);
 });
 
 const generateToken = (id) => {

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -6,32 +7,62 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { teamsArr } from '../config/teams';
 
 const style = {
   position: 'absolute',
-  top: '90%',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
-const PicksAccordion = ({ week, user }) => (
-  <Accordion key={week}>
+const PicksAccordion = ({ week, user, team, setTeam }) => (
+  <Accordion key={week} className="accordian">
     <AccordionSummary
       expandIcon={<ExpandMoreIcon />}
       aria-controls="panel1a-content"
       id="panel1a-header"
     >
-      <h2>Accordion {week}</h2>
+      <h2>Week {week}</h2>
     </AccordionSummary>
     <AccordionDetails>
-      {Array.from({ length: user.bullets }, (_, index) => (
-        <Button>Click</Button>
-      ))}
+      <form
+        method="POST"
+        action={`http://localhost:5555/api/users/makePicks/${week}`}
+      >
+        {Array.from({ length: user.bullets }, (_, i) => (
+          <FormControl fullWidth key={i} className="select">
+            <InputLabel id="demo-simple-select-label">{`Pick ${
+              i + 1
+            }`}</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              value={team}
+              label={`Pick ${i + 1}`}
+              onChange={(e) => setTeam(e.target.value)}
+            >
+              {teamsArr?.map((team, j) => {
+                return (
+                  <MenuItem value={team} key={j}>
+                    {team}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        ))}
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
+      </form>
     </AccordionDetails>
   </Accordion>
 );
@@ -41,24 +72,25 @@ const createPicksAccordians = (numberOfWeeksInNflSeason, user) => {
     <PicksAccordion key={index + 1} week={index + 1} user={user} />
   ));
 };
+
 export default function PicksModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
   const { user, users, isSuccess } = useSelector((state) => state.auth);
+  const [team, setTeam] = useState('');
 
   return (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <h2>Make Your Picks</h2>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      id="picksModal"
+    >
+      <Box sx={style}>
+        <h2>Make Your Picks</h2>
 
-          {createPicksAccordians(18, user)}
-        </Box>
-      </Modal>
-    </div>
+        {createPicksAccordians(18, user)}
+      </Box>
+    </Modal>
   );
 }
