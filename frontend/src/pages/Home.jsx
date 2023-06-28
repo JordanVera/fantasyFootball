@@ -6,6 +6,7 @@ import { getUsers } from '../features/auth/authSlice.js';
 import Table from '../components/Table.jsx';
 import { Box, Button } from '@mui/material';
 import PicksModal from '../components/PicksModal.jsx';
+import RulesModal from '../components/RulesModal.jsx';
 
 export default function Home() {
   const { user, users, isSuccess } = useSelector((state) => state.auth);
@@ -45,6 +46,7 @@ export default function Home() {
         <Button variant="contained" onClick={handleOpen}>
           Make Picks
         </Button>
+        <RulesModal />
         <p>
           There is a total of {users.length} users with {totalBullets} entries
           which makes the prize pool ${totalBullets * 50}

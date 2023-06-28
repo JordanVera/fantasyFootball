@@ -20,8 +20,6 @@ const makePicksLimiter = rateLimit({
 
 router.post('/', registerUser);
 
-router.route('/makePicks/:week').post(makePicksLimiter, makePicks);
-
 router.post('/login', loginUser);
 router.get('/all', getUsers);
 router.get('/me', protect, getMe);

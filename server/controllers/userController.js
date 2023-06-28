@@ -37,6 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      picks: user.picks,
       bullets: user.bullets,
       token: generateToken(user._id),
     });
@@ -59,6 +60,7 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      picks: user.picks,
       bullets: user.bullets,
       token: generateToken(user._id),
     });
@@ -89,19 +91,10 @@ const getUsers = asyncHandler(async (req, res) => {
   return res.status(200).json(users);
 });
 
-// @description Make picks
-// @route /api/users/makePicks/:week
-// @access Private
-const makePicks = asyncHandler(async (req, res) => {
-  const { week } = req.params;
-  console.log(`MAKE PICKS ROUTE HIT FOR WEEK ${week}`);
-  console.log(req.body);
-});
-
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };
 
-module.exports = { registerUser, loginUser, getMe, getUsers, makePicks };
+module.exports = { registerUser, loginUser, getMe, getUsers };
