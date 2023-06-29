@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,6 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { teamsArr } from '../config/teams';
 import axios from 'axios';
+import { makePicks } from '../features/auth/authSlice';
 
 const style = {
   position: 'absolute',
@@ -29,24 +30,16 @@ const style = {
 const WeekAccordion = ({ week, user }) => {
   const { register, handleSubmit } = useForm();
   const [team, setTeam] = useState(Array(user.bullets).fill(''));
+  const dispatch = useDispatch();
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:5555/api/picks/${week}`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+  const onSubmit = async (data, e) => {
+    e.preventDefault();
 
-      console.log('response.data =');
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(data);
+    console.log(week);
+    console.log(user);
+
+    dispatch(makePicks({ data, user, week }));
   };
 
   return (

@@ -30,11 +30,30 @@ const getUsers = async (_) => {
   return response.data;
 };
 
+const makePicks = async (data, user, week) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:5555/api/picks/${week}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const authService = {
   register,
   logout,
   login,
   getUsers,
+  makePicks,
 };
 
 export default authService;
