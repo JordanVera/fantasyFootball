@@ -20,6 +20,25 @@ export default function MainTable() {
     return content;
   };
 
+  const generatePickCells = (user, index) => {
+    let content = [];
+
+    for (let week = 1; week <= 22; week++) {
+      const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
+      const pick = pickObj
+        ? pickObj[`week-${week}`][`pick-${index}`] || ''
+        : '';
+
+      content.push(
+        <TableCell component="td" scope="pick" key={`pick-${week}`}>
+          {pick}
+        </TableCell>
+      );
+    }
+
+    return content;
+  };
+
   const createTableRows = () => {
     let content = [];
 
@@ -30,9 +49,8 @@ export default function MainTable() {
             <TableCell component="th" scope="pick">
               {`${user.name}-${i}`}
             </TableCell>
-            <TableCell component="td">
-              {user.picks[0][`week-${1}`][`pick-1`] || ''}
-            </TableCell>
+
+            {generatePickCells(user, i)}
           </TableRow>
         );
       }
