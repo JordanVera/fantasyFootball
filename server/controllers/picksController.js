@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 
 // @description Make picks
-// @route /api/users/makePicks/:week
+// @route /api/picks/:week
 // @access Private
 exports.makePicks = asyncHandler(async (req, res) => {
   const picks = req.body;

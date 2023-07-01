@@ -81,24 +81,6 @@ const PickSelect = ({ index, register, team, setTeam }) => {
     setTeam(updatedTeam);
   };
 
-  const disableOption = (option, currentWeek) => {
-    // Check if the selected option has already been selected in previous weeks
-    for (let i = 0; i < index; i++) {
-      if (team[i] === option) {
-        return true;
-      }
-    }
-
-    // Check if the selected option has been selected in the current week or subsequent weeks
-    for (let i = index + 1; i < team.length; i++) {
-      if (team[i] === option) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
   return (
     <FormControl fullWidth className="select">
       <InputLabel id={`demo-simple-select-label-${index}`}>
@@ -112,11 +94,7 @@ const PickSelect = ({ index, register, team, setTeam }) => {
         onChange={handleChange}
       >
         {teamsArr?.map((teamOption) => (
-          <MenuItem
-            value={teamOption}
-            key={teamOption}
-            disabled={disableOption(teamOption)}
-          >
+          <MenuItem value={teamOption} key={teamOption}>
             {teamOption}
           </MenuItem>
         ))}

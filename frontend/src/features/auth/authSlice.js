@@ -140,7 +140,14 @@ export const authSlice = createSlice({
       .addCase(makePicks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user.picks = action.payload;
+
+        console.log('action.payload');
+        console.log(action.payload);
+
+        state.user = {
+          ...state.user,
+          picks: action.payload,
+        };
 
         // state.users.find((u) => u.token === user.token).picks = action.payload;
       })
