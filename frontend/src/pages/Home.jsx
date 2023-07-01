@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getScores } from '../features/scores/scoresSlice.js';
 import { getUsers } from '../features/auth/authSlice.js';
-import Table from '../components/Table.jsx';
 import { Box, Button } from '@mui/material';
 import PicksModal from '../components/PicksModal.jsx';
 import RulesModal from '../components/RulesModal.jsx';
+import MainTable from '../components/MainTable.jsx';
 
 export default function Home() {
   const { user, users, isSuccess } = useSelector((state) => state.auth);
@@ -61,7 +61,7 @@ export default function Home() {
       </Box>
       <PicksModal open={open} setOpen={setOpen} />
 
-      <Table />
+      <MainTable />
     </>
   );
 }

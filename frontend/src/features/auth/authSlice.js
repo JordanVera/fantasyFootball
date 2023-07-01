@@ -67,14 +67,7 @@ export const makePicks = createAsyncThunk(
     try {
       return await authService.makePicks(data, user, week);
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      return thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -148,6 +141,8 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user.picks = action.payload;
+
+        // state.users.find((u) => u.token === user.token).picks = action.payload;
       })
       .addCase(makePicks.rejected, (state, action) => {
         state.isLoading = false;

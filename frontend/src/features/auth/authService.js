@@ -31,21 +31,17 @@ const getUsers = async (_) => {
 };
 
 const makePicks = async (data, user, week) => {
-  try {
-    const response = await axios.post(
-      `http://localhost:5555/api/picks/${week}`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
+  const response = await axios.post(
+    `http://localhost:5555/api/picks/${week}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+  );
 
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  return response.data;
 };
 
 const authService = {

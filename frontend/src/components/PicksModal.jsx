@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -13,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { teamsArr } from '../config/teams';
-import axios from 'axios';
 import { makePicks } from '../features/auth/authSlice';
 
 const style = {
@@ -31,15 +31,17 @@ const WeekAccordion = ({ week, user }) => {
   const { register, handleSubmit } = useForm();
   const [team, setTeam] = useState(Array(user.bullets).fill(''));
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
-    console.log(data);
-    console.log(week);
-    console.log(user);
-
     dispatch(makePicks({ data, user, week }));
+
+    // console.log(data);
+    // console.log(week);
+    // console.log(user);
+    navigate('/');
   };
 
   return (
