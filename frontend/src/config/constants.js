@@ -1,3 +1,5 @@
+export const NUMBER_OF_WEEKS_IN_NFL = 22;
+
 export const teamsArr = [
   'ARI',
   'ATL',

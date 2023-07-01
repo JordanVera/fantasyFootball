@@ -13,8 +13,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { teamsArr } from '../config/teams';
+import { teamsArr } from '../config/constants';
 import { makePicks } from '../features/auth/authSlice';
+import { NUMBER_OF_WEEKS_IN_NFL } from '../config/constants';
 
 const style = {
   position: 'absolute',
@@ -80,6 +81,24 @@ const PickSelect = ({ index, register, team, setTeam }) => {
     setTeam(updatedTeam);
   };
 
+  const disableOption = (option, currentWeek) => {
+    // Check if the selected option has already been selected in previous weeks
+    for (let i = 0; i < index; i++) {
+      if (team[i] === option) {
+        return true;
+      }
+    }
+
+    // Check if the selected option has been selected in the current week or subsequent weeks
+    for (let i = index + 1; i < team.length; i++) {
+      if (team[i] === option) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   return (
     <FormControl fullWidth className="select">
       <InputLabel id={`demo-simple-select-label-${index}`}>
@@ -93,7 +112,11 @@ const PickSelect = ({ index, register, team, setTeam }) => {
         onChange={handleChange}
       >
         {teamsArr?.map((teamOption) => (
-          <MenuItem value={teamOption} key={teamOption}>
+          <MenuItem
+            value={teamOption}
+            key={teamOption}
+            disabled={disableOption(teamOption)}
+          >
             {teamOption}
           </MenuItem>
         ))}
@@ -117,7 +140,7 @@ export default function PicksModal({ open, setOpen }) {
       <Box sx={style}>
         <h2>Make Your Picks</h2>
 
-        {Array.from({ length: 18 }, (_, index) => (
+        {Array.from({ length: NUMBER_OF_WEEKS_IN_NFL }, (_, index) => (
           <WeekAccordion key={index + 1} week={index + 1} user={user} />
         ))}
       </Box>

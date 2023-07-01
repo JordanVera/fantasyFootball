@@ -9,12 +9,14 @@ import {
   Table,
 } from '@mui/material';
 
+import { NUMBER_OF_WEEKS_IN_NFL } from '../config/constants';
+
 export default function MainTable() {
   const { users, user } = useSelector((state) => state.auth);
 
   const createTableHeaders = (_) => {
     let content = [<TableCell key={0}>Player</TableCell>];
-    for (let i = 1; i <= 22; i++) {
+    for (let i = 1; i <= NUMBER_OF_WEEKS_IN_NFL; i++) {
       content.push(<TableCell key={i}>Week &nbsp;{i}</TableCell>);
     }
     return content;
@@ -43,7 +45,7 @@ export default function MainTable() {
   const generatePickCells = (user, index) => {
     let content = [];
 
-    for (let week = 1; week <= 22; week++) {
+    for (let week = 1; week <= NUMBER_OF_WEEKS_IN_NFL; week++) {
       const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
       const pick = pickObj ? pickObj[`week-${week}`][`pick-${index}`] : '';
 

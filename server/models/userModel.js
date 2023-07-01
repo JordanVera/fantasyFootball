@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema(
     bullets: {
       type: Number,
       required: true,
-      default: 5,
+      default: 2,
     },
     picks: {
       type: Array,
