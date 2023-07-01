@@ -20,26 +20,7 @@ export default function MainTable() {
     return content;
   };
 
-  const generatePickCells = (user, index) => {
-    let content = [];
-
-    for (let week = 1; week <= 22; week++) {
-      const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
-      const pick = pickObj
-        ? pickObj[`week-${week}`][`pick-${index}`] || ''
-        : '';
-
-      content.push(
-        <TableCell component="td" scope="pick" key={`pick-${week}`}>
-          {pick}
-        </TableCell>
-      );
-    }
-
-    return content;
-  };
-
-  const createTableRows = () => {
+  const createTableRows = (_) => {
     let content = [];
 
     users.map((user) => {
@@ -59,8 +40,25 @@ export default function MainTable() {
     return content;
   };
 
+  const generatePickCells = (user, index) => {
+    let content = [];
+
+    for (let week = 1; week <= 22; week++) {
+      const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
+      const pick = pickObj ? pickObj[`week-${week}`][`pick-${index}`] : '';
+
+      content.push(
+        <TableCell component="td" scope="pick" key={`pick-${week}`}>
+          {pick}
+        </TableCell>
+      );
+    }
+
+    return content;
+  };
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ borderRadius: '12px' }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>{createTableHeaders()}</TableRow>
