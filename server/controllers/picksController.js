@@ -8,6 +8,9 @@ exports.makePicks = asyncHandler(async (req, res) => {
   const picks = req.body;
   const { week } = req.params;
 
+  console.log('req.user');
+  console.log(req.user);
+
   const result = await User.findById(req.user._id);
   const data = { [`week-${week}`]: picks };
   const allPicks = [...result.picks];

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   TableRow,
@@ -13,6 +14,27 @@ import { NUMBER_OF_WEEKS_IN_NFL } from '../config/constants';
 
 export default function MainTable() {
   const { users, user } = useSelector((state) => state.auth);
+
+  const userPicks = user.picks;
+
+  const picksByIndex = userPicks.reduce((acc, item) => {
+    const picks = Object.values(item)[0]; // Get the picks object
+
+    Object.keys(picks).forEach((pickKey) => {
+      if (!acc[pickKey]) {
+        acc[pickKey] = []; // Initialize the array for the pick key if it doesn't exist
+      }
+
+      acc[pickKey].push(picks[pickKey]); // Push the pick value into the corresponding array
+    });
+
+    return acc;
+  }, {});
+
+  useEffect(() => {
+    console.log('picksByIndex');
+    console.log(picksByIndex);
+  }, []);
 
   const createTableHeaders = (_) => {
     let content = [<TableCell key={0}>Player</TableCell>];
