@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -28,9 +29,10 @@ const style = {
   p: 4,
 };
 
-const WeekAccordion = ({ week, user }) => {
+const WeekAccordion = ({ week, user, picksByIndex }) => {
   const { register, handleSubmit } = useForm();
   const [team, setTeam] = useState(Array(user.bullets).fill(''));
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,9 +41,6 @@ const WeekAccordion = ({ week, user }) => {
 
     dispatch(makePicks({ data, user, week }));
 
-    // console.log(data);
-    // console.log(week);
-    // console.log(user);
     navigate('/');
   };
 
@@ -63,6 +62,9 @@ const WeekAccordion = ({ week, user }) => {
               register={register}
               team={team}
               setTeam={setTeam}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+              picksByIndex={picksByIndex}
             />
           ))}
           <Button variant="contained" type="submit">
@@ -74,11 +76,23 @@ const WeekAccordion = ({ week, user }) => {
   );
 };
 
-const PickSelect = ({ index, register, team, setTeam }) => {
+const PickSelect = ({ index, register, team, setTeam, picksByIndex }) => {
   const handleChange = (event) => {
     const updatedTeam = [...team];
     updatedTeam[index] = event.target.value;
     setTeam(updatedTeam);
+
+    // Check if the user has made the same pick in another week.
+    if (picksByIndex[`pick-${index + 1}`].includes(event.target.value)) {
+      console.log(
+        `Option ${event.target.value} already selected in another pick.`
+      );
+
+      toast.error(
+        `Option ${event.target.value} already selected in another pick.`
+      );
+      return;
+    }
   };
 
   return (
@@ -105,7 +119,26 @@ const PickSelect = ({ index, register, team, setTeam }) => {
 
 export default function PicksModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
+
   const { user } = useSelector((state) => state.auth);
+
+  const userPicks = user.picks;
+
+  const userPicksDS = userPicks.reduce((acc, pick) => {
+    const picks = Object.values(pick)[0]; // Get the picks object
+
+    Object.keys(picks).forEach((pickKey) => {
+      if (!acc[pickKey]) {
+        acc[pickKey] = []; // Initialize the array for the pick key if it doesn't exist
+      }
+
+      acc[pickKey].push(picks[pickKey]); // Push the pick value into the corresponding array
+    });
+
+    return acc;
+  }, {});
+
+  const [picksByIndex, setpicksByIndex] = useState(userPicksDS);
 
   return (
     <Modal
@@ -119,7 +152,12 @@ export default function PicksModal({ open, setOpen }) {
         <h2>Make Your Picks</h2>
 
         {Array.from({ length: NUMBER_OF_WEEKS_IN_NFL }, (_, index) => (
-          <WeekAccordion key={index + 1} week={index + 1} user={user} />
+          <WeekAccordion
+            key={index + 1}
+            week={index + 1}
+            user={user}
+            picksByIndex={picksByIndex}
+          />
         ))}
       </Box>
     </Modal>
