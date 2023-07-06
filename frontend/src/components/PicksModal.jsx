@@ -3,17 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import {
+  Box,
+  Button,
+  Modal,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { teamsArr } from '../config/constants';
 import { makePicks } from '../features/auth/authSlice';
 import { NUMBER_OF_WEEKS_IN_NFL } from '../config/constants';
@@ -32,12 +34,30 @@ const style = {
 const WeekAccordion = ({ week, user, picksByIndex }) => {
   const { register, handleSubmit } = useForm();
   const [team, setTeam] = useState(Array(user.bullets).fill(''));
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
+
+    for (let index = 0; index < user.bullets; index++) {
+      const pickKey = `pick-${index + 1}`;
+      const selectedOption = data[pickKey];
+
+      console.log('picksByIn: ', selectedOption);
+      console.log('picksByIndex: ', picksByIndex[pickKey]);
+
+      if (selectedOption && picksByIndex[pickKey]?.includes(selectedOption)) {
+        console.log(
+          `Option ${selectedOption} already selected in another pick.`
+        );
+
+        toast.error(
+          `Option ${selectedOption} already selected in entry ${index + 1}.`
+        );
+        return;
+      }
+    }
 
     dispatch(makePicks({ data, user, week }));
 
@@ -62,9 +82,6 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
               register={register}
               team={team}
               setTeam={setTeam}
-              selectedOptions={selectedOptions}
-              setSelectedOptions={setSelectedOptions}
-              picksByIndex={picksByIndex}
             />
           ))}
           <Button variant="contained" type="submit">
@@ -76,35 +93,23 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
   );
 };
 
-const PickSelect = ({ index, register, team, setTeam, picksByIndex }) => {
+const PickSelect = ({ index, register, team, setTeam }) => {
   const handleChange = (event) => {
     const updatedTeam = [...team];
     updatedTeam[index] = event.target.value;
     setTeam(updatedTeam);
-
-    // Check if the user has made the same pick in another week.
-    if (picksByIndex[`pick-${index + 1}`].includes(event.target.value)) {
-      console.log(
-        `Option ${event.target.value} already selected in another pick.`
-      );
-
-      toast.error(
-        `Option ${event.target.value} already selected in another pick.`
-      );
-      return;
-    }
   };
 
   return (
     <FormControl fullWidth className="select">
       <InputLabel id={`demo-simple-select-label-${index}`}>
-        {`Pick ${index + 1}`}
+        {`Entry ${index + 1}`}
       </InputLabel>
       <Select
         {...register(`pick-${index + 1}`)}
         labelId={`demo-simple-select-label-${index}`}
         value={team[index]}
-        label={`Pick ${index + 1}`}
+        label={`Entry ${index + 1}`}
         onChange={handleChange}
       >
         {teamsArr?.map((teamOption) => (
@@ -120,25 +125,34 @@ const PickSelect = ({ index, register, team, setTeam, picksByIndex }) => {
 export default function PicksModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, users } = useSelector((state) => state.auth);
+  // const { users, user } = useSelector((state) => state.auth);
+  // const user = users.find()
 
-  const userPicks = user.picks;
+  const [picksByIndex, setpicksByIndex] = useState({});
 
-  const userPicksDS = userPicks.reduce((acc, pick) => {
-    const picks = Object.values(pick)[0]; // Get the picks object
+  useEffect(() => {
+    const userPicks = user?.picks;
 
-    Object.keys(picks).forEach((pickKey) => {
-      if (!acc[pickKey]) {
-        acc[pickKey] = []; // Initialize the array for the pick key if it doesn't exist
-      }
+    if (userPicks) {
+      console.log({ userPicks });
+      const userPicksDS = userPicks.reduce((acc, pick) => {
+        const picks = Object.values(pick)[0]; // Get the picks object
 
-      acc[pickKey].push(picks[pickKey]); // Push the pick value into the corresponding array
-    });
+        Object.keys(picks).forEach((pickKey) => {
+          if (!acc[pickKey]) {
+            acc[pickKey] = []; // Initialize the array for the pick key if it doesn't exist
+          }
 
-    return acc;
-  }, {});
+          acc[pickKey].push(picks[pickKey]); // Push the pick value into the corresponding array
+        });
 
-  const [picksByIndex, setpicksByIndex] = useState(userPicksDS);
+        return acc;
+      }, {});
+
+      setpicksByIndex(userPicksDS);
+    }
+  }, [user]);
 
   return (
     <Modal

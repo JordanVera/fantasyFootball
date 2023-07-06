@@ -41,6 +41,16 @@ const makePicks = async (data, user, week) => {
     }
   );
 
+  if (response.data) {
+    localStorage.setItem(
+      'user',
+      JSON.stringify({
+        ...user,
+        picks: response.data,
+      })
+    );
+  }
+
   return response.data;
 };
 
