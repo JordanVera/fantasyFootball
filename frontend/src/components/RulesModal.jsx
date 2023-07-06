@@ -22,7 +22,7 @@ export default function RulesModal() {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <section id="rulesModal">
       <Button onClick={handleOpen}>Rules</Button>
       <Modal
         open={open}
@@ -120,6 +120,6 @@ export default function RulesModal() {
           </ol>
         </Box>
       </Modal>
-    </div>
+    </section>
   );
 }

@@ -41,6 +41,7 @@ const makePicks = async (data, user, week) => {
     }
   );
 
+  // update the picks array in localStorage
   if (response.data) {
     localStorage.setItem(
       'user',

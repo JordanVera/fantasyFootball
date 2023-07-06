@@ -32,6 +32,7 @@ const style = {
 };
 
 const WeekAccordion = ({ week, user, picksByIndex }) => {
+  const theme = useSelector((state) => state.theme.theme);
   const { register, handleSubmit } = useForm();
   const [team, setTeam] = useState(Array(user.bullets).fill(''));
   const dispatch = useDispatch();
@@ -53,15 +54,23 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
         );
 
         toast.error(
-          `Option ${selectedOption} already selected in entry ${index + 1}.`
+          `Option ${selectedOption} already selected in entry ${index + 1}.`,
+          {
+            theme: theme ? 'dark' : 'light',
+          }
         );
         return;
       }
     }
 
     dispatch(makePicks({ data, user, week }));
+    toast.success(`Picks submitted for week ${week}`, {
+      theme: theme ? 'dark' : 'light',
+    });
 
-    navigate('/');
+    navigate('/dashboard');
+
+    // window.location.reload(false);
   };
 
   return (

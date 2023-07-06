@@ -35,6 +35,8 @@ h1 {
 
 .header ul li a,
 .header .logo a,
+.heading p,
+#rulesModal li,
 .themeToggle {
   color: var(--font_color) !important;
 }
@@ -43,10 +45,6 @@ h1 {
   border: 2px solid var(--blue);
   border-radius: 12px;
   padding: 2rem;
-}
-
-.heading p {
-  color: var(--font_color);
 }
 
 .btn {
@@ -68,4 +66,8 @@ h1 {
 #picksModal .MuiBox-root {
   background-color: var(--body_background);
   color: var(--font_color)
+}
+
+.login .MuiFormControl-root {
+  background-color: var(--body_background) !important;
 }

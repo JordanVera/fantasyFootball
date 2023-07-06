@@ -25,11 +25,13 @@ export default function Register() {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error(message, {
+        theme: theme ? 'dark' : 'light',
+      });
     }
 
     if (isSuccess || user) {
-      navigate('/');
+      navigate('/dashboard');
     }
 
     dispatch(reset());
@@ -46,7 +48,9 @@ export default function Register() {
     e.preventDefault();
 
     if (password !== password2) {
-      toast.error('passwords do not match');
+      toast.error('passwords do not match', {
+        theme: theme ? 'dark' : 'light',
+      });
     } else {
       const userData = {
         name,

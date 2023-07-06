@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, reset } from '../features/auth/authSlice.js';
+import { TextField, Button } from '@mui/material';
 import Spinner from '../components/Spinner';
 
 export default function Login() {
@@ -23,11 +24,13 @@ export default function Login() {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error(message, {
+        theme: theme ? 'dark' : 'light',
+      });
     }
 
     if (isSuccess || user) {
-      navigate('/');
+      navigate('/dashboard');
     }
 
     dispatch(reset());
@@ -62,46 +65,42 @@ export default function Login() {
   }
 
   return (
-    <>
-      <section className="heading">
-        <h1>
-          <FaSignInAlt /> Login
-        </h1>
-        <p>Please login to get support</p>
-      </section>
+    <section className="form login">
+      <h1>
+        <FaSignInAlt /> Login
+      </h1>
+      <p className="subheading">Please login to get support</p>
+      <form onSubmit={onSubmit}>
+        <TextField
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={onChange}
+          placeholder="Enter your email"
+          required
+          label="email"
+          variant="filled"
+          fullWidth
+        />
+        <TextField
+          type="password"
+          className="form-control"
+          id="password"
+          name="password"
+          value={password}
+          onChange={onChange}
+          required
+          placeholder="Enter your password"
+          label="password"
+          variant="filled"
+          fullWidth
+        />
 
-      <section className="form">
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={email}
-              onChange={onChange}
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              value={password}
-              onChange={onChange}
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <button className="btn btn-block">submit</button>
-          </div>
-        </form>
-      </section>
-    </>
+        <Button fullWidth variant="contained">
+          submit
+        </Button>
+      </form>
+    </section>
   );
 }
