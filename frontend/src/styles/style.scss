@@ -1,15 +1,41 @@
-$white: #fff;
-$black: #000;
+@import './colors.scss';
+
+
+.orange {
+  color: $orange !important;
+}
+
+//Header
+.header {
+
+  .button {
+    text-transform: capitalize;
+    font-size: 1rem;
+    color: $white;
+  }
+}
+
+
+// DASHBOARD PAGE
+
+.heading {
+  border: 2px solid $orange;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
 
 // LOGIN PAGE styles
 .login {
+  text-align: center;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
   padding: 2rem 1rem;
-  background-image: url('/public/obj.jpg');
+
+  background-image: url('/obj.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -25,6 +51,10 @@ $black: #000;
     display: block !important;
     margin: 2rem 0;
     background-color: $black;
+  }
+
+  button {
+    color: $white;
   }
 }
 

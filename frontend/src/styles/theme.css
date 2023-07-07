@@ -38,13 +38,7 @@ h1 {
 .heading p,
 #rulesModal li,
 .themeToggle {
-  color: var(--font_color) !important;
-}
-
-.heading {
-  border: 2px solid var(--blue);
-  border-radius: 12px;
-  padding: 2rem;
+  color: var(--font_color);
 }
 
 .btn {

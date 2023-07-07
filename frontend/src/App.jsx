@@ -15,7 +15,7 @@ import '@theme-toggles/react/css/within.css';
 const light = {
   palette: {
     primary: {
-      main: '#2999C0',
+      main: '#FF9505',
     },
     mode: 'light',
   },
@@ -24,7 +24,7 @@ const light = {
 const dark = {
   palette: {
     primary: {
-      main: '#2999C0',
+      main: '#FF9505',
     },
     mode: 'dark',
   },

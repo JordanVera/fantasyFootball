@@ -1,3 +1,4 @@
+import { HomeParticles } from '../components/HomeParticles';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
@@ -27,12 +28,15 @@ const Home = () => {
           </Button>
         </Link>
       </section>
-      <video id="backgroundVideo" autoPlay muted loop playsInline>
+      <section className="particles">
+        <HomeParticles />
+      </section>
+      {/* <video id="backgroundVideo" autoPlay muted loop playsInline>
         <source
           src="https://www.dropbox.com/s/cb19o9iy8ossfdk/bannerVideo%20copy.mp4?raw=1"
           type="video/mp4"
         />
-      </video>
+      </video> */}
     </section>
   );
 };

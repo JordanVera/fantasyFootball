@@ -5,6 +5,7 @@ import { FaSignInAlt } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, reset } from '../features/auth/authSlice.js';
 import { TextField, Button } from '@mui/material';
+import { HomeParticles } from '../components/HomeParticles.jsx';
 import Spinner from '../components/Spinner';
 
 export default function Login() {
@@ -65,42 +66,47 @@ export default function Login() {
   }
 
   return (
-    <section className="form login">
-      <h1>
-        <FaSignInAlt /> Login
-      </h1>
-      <p className="subheading">Please login to get support</p>
-      <form onSubmit={onSubmit}>
-        <TextField
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={onChange}
-          placeholder="Enter your email"
-          required
-          label="email"
-          variant="filled"
-          fullWidth
-        />
-        <TextField
-          type="password"
-          className="form-control"
-          id="password"
-          name="password"
-          value={password}
-          onChange={onChange}
-          required
-          placeholder="Enter your password"
-          label="password"
-          variant="filled"
-          fullWidth
-        />
+    <>
+      <section className="form login">
+        <h1>
+          <FaSignInAlt /> Login
+        </h1>
+        <p className="subheading">Please login to get support</p>
+        <form onSubmit={onSubmit}>
+          <TextField
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            placeholder="Enter your email"
+            required
+            label="email"
+            variant="filled"
+            fullWidth
+          />
+          <TextField
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+            placeholder="Enter your password"
+            label="password"
+            variant="filled"
+            fullWidth
+          />
 
-        <Button fullWidth variant="contained">
-          submit
-        </Button>
-      </form>
-    </section>
+          <Button fullWidth variant="contained" type="submit">
+            submit
+          </Button>
+        </form>
+      </section>
+      <section className="particles">
+        <HomeParticles />
+      </section>
+    </>
   );
 }

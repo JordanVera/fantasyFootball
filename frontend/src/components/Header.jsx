@@ -3,7 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice.js';
 import { Within } from '@theme-toggles/react';
+import { TextField, Button } from '@mui/material';
 import { toggleTheme } from '../features/theme/themeSlice.js';
+
 export default function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,9 +36,9 @@ export default function Header() {
         />
         {user ? (
           <li>
-            <button className="btn" onClick={onLogout}>
+            <Button className="button" variant="text" onClick={onLogout}>
               <FaSignOutAlt /> Logout
-            </button>
+            </Button>
           </li>
         ) : (
           <>
