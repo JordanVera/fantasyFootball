@@ -14,6 +14,9 @@ import { NUMBER_OF_WEEKS_IN_NFL } from '../config/constants';
 
 export default function MainTable() {
   const { users, user } = useSelector((state) => state.auth);
+  const { losers } = useSelector((state) => state.scores);
+
+  console.log('LOSERSSS');
 
   const createTableHeaders = (_) => {
     let content = [<TableCell key={0}>Player</TableCell>];
@@ -50,8 +53,16 @@ export default function MainTable() {
       const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
       const pick = pickObj ? pickObj[`week-${week}`][`pick-${index}`] : '';
 
+      const weekKey = `week${week}`;
+      const weekLosers = losers[weekKey] || []; // Ensure that `losers[weekKey]` is defined or set it as an empty array
+
       content.push(
-        <TableCell component="td" scope="pick" key={`pick-${week}`}>
+        <TableCell
+          className={weekLosers.includes(pick) ? 'wrongSelection' : ''}
+          component="td"
+          scope="pick"
+          key={`pick-${week}`}
+        >
           {pick}
         </TableCell>
       );

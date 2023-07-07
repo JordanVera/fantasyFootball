@@ -45,6 +45,4 @@ const getStartingWeek = () => {
   return startingWeek;
 };
 
-console.log('getStartingWeek()', getStartingWeek());
-
 export { getAvailableWeeks, getStartingWeek, dates };

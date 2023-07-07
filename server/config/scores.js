@@ -1,11 +1,13 @@
 const axios = require('axios');
-const dotenv = require('dotenv').config();
+
 const { MongoClient } = require('mongodb');
 const colors = require('colors');
 const util = require('util');
 const Game = require('../models/gameModel');
-const scoresRepo = require('../controllers/scoresController.js');
+// const scoresRepo = require('../controllers/scoresController.js');
 const connectDB = require('./db');
+
+require('dotenv').config();
 
 function getWinnnersLosers() {
   const winners = {
@@ -125,25 +127,25 @@ function getWinnnersLosers() {
 
           responseArr[i].data.forEach((element) => {
             if (element.AwayScore > element.HomeScore) {
-              // console.log(chalk.red('Away team won'));
+              console.log('Away team won'.red);
               winnerWeek.push(element.AwayTeam);
               loserWeek.push(element.HomeTeam);
             } else if (element.AwayScore === element.HomeScore) {
-              // console.log(chalk.blue('Game was a tie, both teams lost'));
+              console.log('Game was a tie, both teams lost'.blue);
               loserWeek.push(element.HomeTeam);
               loserWeek.push(element.AwayTeam);
             } else {
-              // console.log(chalk.green('Home Team won'));
+              console.log('Home Team won'.green);
               winnerWeek.push(element.HomeTeam);
               loserWeek.push(element.AwayTeam);
             }
           });
         }
 
-        console.log('WINNERS OBJECT'.green);
-        console.log(util.inspect(winners, { showHidden: false, depth: null }));
-        console.log('LOSERS OBJECT'.red);
-        console.log(util.inspect(losers, { showHidden: false, depth: null }));
+        // console.log('WINNERS OBJECT'.green);
+        // console.log(util.inspect(winners, { showHidden: false, depth: null }));
+        // console.log('LOSERS OBJECT'.red);
+        // console.log(util.inspect(losers, { showHidden: false, depth: null }));
 
         resolve({ winners, losers });
 
