@@ -31,12 +31,12 @@ const Home = () => {
       <section className="particles">
         <HomeParticles />
       </section>
-      {/* <video id="backgroundVideo" autoPlay muted loop playsInline>
+      <video id="backgroundVideo" autoPlay muted loop playsInline>
         <source
           src="https://www.dropbox.com/s/cb19o9iy8ossfdk/bannerVideo%20copy.mp4?raw=1"
           type="video/mp4"
         />
-      </video> */}
+      </video>
     </section>
   );
 };

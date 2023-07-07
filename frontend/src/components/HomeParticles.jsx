@@ -24,10 +24,10 @@ const HomeParticles = () => {
         fpsLimit: 60,
         particles: {
           number: {
-            value: 88,
+            value: 200,
             density: {
               enable: true,
-              value_area: 700,
+              value_area: 900,
             },
           },
           color: {
@@ -66,7 +66,7 @@ const HomeParticles = () => {
           line_linked: {
             enable: true,
             distance: 110,
-            color: '#33b1f8',
+            color: '#016FB9',
             opacity: 0.25,
             width: 1,
           },
