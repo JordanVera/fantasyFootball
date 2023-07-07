@@ -7,6 +7,7 @@ import { Box, Button } from '@mui/material';
 import PicksModal from '../components/PicksModal.jsx';
 import RulesModal from '../components/RulesModal.jsx';
 import MainTable from '../components/MainTable.jsx';
+import { HomeParticles } from '../components/HomeParticles.jsx';
 
 export default function Dashboard() {
   const { user, users, isSuccess } = useSelector((state) => state.auth);
@@ -62,6 +63,10 @@ export default function Dashboard() {
       <PicksModal open={open} setOpen={setOpen} />
 
       <MainTable />
+
+      <section className="particles">
+        <HomeParticles />
+      </section>
     </>
   );
 }
