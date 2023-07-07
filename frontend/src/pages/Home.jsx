@@ -9,7 +9,8 @@ const Home = () => {
   return (
     <section id="home">
       <section className="buttons">
-        <Link to="/login">
+        <h1>Welcome to NFL Last Longer</h1>
+        {/* <Link to="/login">
           <Button
             className="homeBtn"
             variant="contained"
@@ -26,7 +27,7 @@ const Home = () => {
           >
             Register
           </Button>
-        </Link>
+        </Link> */}
       </section>
       <section className="particles">
         <HomeParticles />
