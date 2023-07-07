@@ -54,7 +54,7 @@ export default function Dashboard() {
         </p>
         <p>Once you buy-in you will be able to make your picks</p>
         <p className="bold">Please make sure to read the rules</p>
-        <p className="orange">
+        <p className="blue">
           ***Please note you must make your pick on Thursday before 6pm CST (7pm
           EST) for every bullet. Even if you are not picking the thursday
           game.***

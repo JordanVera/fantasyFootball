@@ -29,9 +29,9 @@ const Home = () => {
           </Button>
         </Link> */}
       </section>
-      <section className="particles">
+      {/* <section className="particles">
         <HomeParticles />
-      </section>
+      </section> */}
       <video id="backgroundVideo" autoPlay muted loop playsInline>
         <source
           src="https://www.dropbox.com/s/cb19o9iy8ossfdk/bannerVideo%20copy.mp4?raw=1"

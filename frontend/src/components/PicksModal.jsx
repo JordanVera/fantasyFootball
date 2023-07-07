@@ -19,6 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { teamsArr } from '../config/constants';
 import { makePicks } from '../features/auth/authSlice';
 import { NUMBER_OF_WEEKS_IN_NFL } from '../config/constants';
+import { getStartingWeek, dates } from '../config/dates';
 
 const style = {
   position: 'absolute',
@@ -63,8 +64,23 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
       }
     }
 
+    // Check if the current week the user is submitting is too late.
+    if (Number(week) < getStartingWeek()) {
+      toast.error(
+        `Pick submitted too late for week ${week}.  The deadline was ${dates[
+          week - 1
+        ].format('MM/DD/YYYY h:mm A')}`,
+        {
+          theme: theme ? 'dark' : 'light',
+        }
+      );
+      return;
+    }
+    console.log(week, getStartingWeek(), week < getStartingWeek());
+
     dispatch(makePicks({ data, user, week }));
-    toast.success(`Picks submitted for week ${week}`, {
+
+    toast.success(`Picks submitted for week ${week}.`, {
       theme: theme ? 'dark' : 'light',
     });
 
@@ -135,8 +151,6 @@ export default function PicksModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
 
   const { user, users } = useSelector((state) => state.auth);
-  // const { users, user } = useSelector((state) => state.auth);
-  // const user = users.find()
 
   const [picksByIndex, setpicksByIndex] = useState({});
 

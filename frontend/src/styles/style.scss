@@ -5,6 +5,10 @@
   color: $orange !important;
 }
 
+.blue {
+  color: $azul !important;
+}
+
 //Header
 .header {
 
@@ -19,9 +23,10 @@
 // DASHBOARD PAGE
 
 .heading {
-  border: 2px solid $orange;
+  border: 2px solid $azul;
   border-radius: 12px;
   padding: 2rem;
+  background-color: $black;
 }
 
 
