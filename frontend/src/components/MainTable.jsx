@@ -16,8 +16,6 @@ export default function MainTable() {
   const { users, user } = useSelector((state) => state.auth);
   const { losers } = useSelector((state) => state.scores);
 
-  console.log('LOSERSSS');
-
   const createTableHeaders = (_) => {
     let content = [<TableCell key={0}>Player</TableCell>];
     for (let i = 1; i <= NUMBER_OF_WEEKS_IN_NFL; i++) {

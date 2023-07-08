@@ -107,6 +107,8 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
               register={register}
               team={team}
               setTeam={setTeam}
+              week={week}
+              user={user}
             />
           ))}
           <Button variant="contained" type="submit">
@@ -118,15 +120,33 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
   );
 };
 
-const PickSelect = ({ index, register, team, setTeam }) => {
+const PickSelect = ({ index, register, team, setTeam, week, user }) => {
   const handleChange = (event) => {
     const updatedTeam = [...team];
     updatedTeam[index] = event.target.value;
     setTeam(updatedTeam);
   };
 
+  const { losers } = useSelector((state) => state.scores);
+
+  const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
+  const pick = pickObj ? pickObj[`week-${week}`][`pick-${index + 1}`] : '';
+
+  const weekKey = `week${week}`;
+  const weekLosers = losers[weekKey] || [];
+
+  console.log('result');
+  console.log(pickObj);
+  console.log(week);
+  console.log(weekLosers.includes(pick));
+
   return (
-    <FormControl fullWidth className="select">
+    <FormControl
+      id={`entry-${index + 1}`}
+      fullWidth
+      className="select"
+      disabled={weekLosers.includes(pick)}
+    >
       <InputLabel id={`demo-simple-select-label-${index}`}>
         {`Entry ${index + 1}`}
       </InputLabel>
