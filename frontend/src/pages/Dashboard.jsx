@@ -64,9 +64,9 @@ export default function Dashboard() {
 
       <MainTable />
 
-      <section className="particles">
+      {/* <section className="particles">
         <HomeParticles />
-      </section>
+      </section> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, reset } from '../features/auth/authSlice.js';
@@ -103,6 +103,9 @@ export default function Login() {
             submit
           </Button>
         </form>
+        <Link to="/register" className="registerBtn">
+          No Account? Register
+        </Link>
       </section>
       <section className="particles">
         <HomeParticles />

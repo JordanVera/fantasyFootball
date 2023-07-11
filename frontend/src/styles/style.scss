@@ -36,7 +36,7 @@
 
 // LOGIN PAGE styles
 .login {
-  text-align: center;
+
   position: fixed;
   top: 50%;
   left: 50%;
@@ -63,6 +63,12 @@
   }
 
   button {
+    color: $white;
+    margin-bottom: 2rem !important;
+  }
+
+  .registerBtn {
+    text-align: left !important;
     color: $white;
   }
 }

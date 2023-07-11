@@ -2,8 +2,8 @@ import moment from 'moment';
 
 // Dates are 1 hour ahead of central time, use eastern time.
 const dates = [
-  moment('2023-04-24T23:16'), // WEEK 1 NFL (Thursday September 9th, 7:20pm CDT)
-  moment('2023-04-30T02:55'), // WEEK 2 NFL (Thursday September 16th, 7:20pm CDT)
+  moment('2023-09-08T23:16'), // WEEK 1 NFL (Thursday September 9th, 7:20pm CDT)
+  moment('2023-09-14T02:55'), // WEEK 2 NFL (Thursday September 16th, 7:20pm CDT)
   moment('2023-09-18T02:55'), // WEEK 3 NFL (Thursday September 23rd, 7:20pm CDT)
   moment('2023-09-20T02:55'), // WEEK 4 NFL (Thursday September 30th, 7:20pm CDT)
   moment('2023-10-20T02:55'), // WEEK 5 NFL (Thursday October 7th, 7:20pm CDT)

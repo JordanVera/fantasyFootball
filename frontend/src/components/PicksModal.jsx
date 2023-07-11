@@ -21,17 +21,6 @@ import { makePicks } from '../features/auth/authSlice';
 import { NUMBER_OF_WEEKS_IN_NFL } from '../config/constants';
 import { getStartingWeek, dates } from '../config/dates';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 const WeekAccordion = ({ week, user, picksByIndex }) => {
   const theme = useSelector((state) => state.theme.theme);
   const { register, handleSubmit } = useForm();
@@ -46,7 +35,7 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
       const pickKey = `pick-${index + 1}`;
       const selectedOption = data[pickKey];
 
-      console.log('picksByIn: ', selectedOption);
+      console.log('selected option: ', selectedOption);
       console.log('picksByIndex: ', picksByIndex[pickKey]);
 
       if (selectedOption && picksByIndex[pickKey]?.includes(selectedOption)) {
@@ -76,7 +65,7 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
       );
       return;
     }
-    console.log(week, getStartingWeek(), week < getStartingWeek());
+    // console.log(week, getStartingWeek(), week < getStartingWeek());
 
     dispatch(makePicks({ data, user, week }));
 
@@ -85,9 +74,15 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
     });
 
     navigate('/dashboard');
-
-    // window.location.reload(false);
   };
+
+  // const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
+  // const pick = pickObj ? pickObj[`week-${week}`][`pick-${index}`] : '';
+
+  // const weekKey = `week${week}`;
+  // const weekLosers = losers[weekKey] || []; // Ensure that `losers[weekKey]` is defined or set it as an empty array
+
+  // weekLosers.includes(pick) ? 'wrongSelection' : '';
 
   return (
     <Accordion key={week} className="accordion">
@@ -100,10 +95,10 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
       </AccordionSummary>
       <AccordionDetails>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {Array.from({ length: user.bullets }, (_, index) => (
+          {Array.from({ length: user.bullets }, (_, bulletCountIndex) => (
             <PickSelect
-              key={index}
-              index={index}
+              key={bulletCountIndex}
+              bulletCountIndex={bulletCountIndex}
               register={register}
               team={team}
               setTeam={setTeam}
@@ -120,41 +115,47 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
   );
 };
 
-const PickSelect = ({ index, register, team, setTeam, week, user }) => {
+const PickSelect = ({
+  bulletCountIndex,
+  register,
+  team,
+  setTeam,
+  week,
+  user,
+}) => {
   const handleChange = (event) => {
     const updatedTeam = [...team];
-    updatedTeam[index] = event.target.value;
+    updatedTeam[bulletCountIndex] = event.target.value;
     setTeam(updatedTeam);
   };
 
   const { losers } = useSelector((state) => state.scores);
 
-  const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
-  const pick = pickObj ? pickObj[`week-${week}`][`pick-${index + 1}`] : '';
+  // const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
+  // const pick = pickObj ? pickObj[`week-${week}`][`pick-${index + 1}`] : '';
 
-  const weekKey = `week${week}`;
-  const weekLosers = losers[weekKey] || [];
+  // const weekKey = `week${week}`;
+  // const weekLosers = losers[weekKey] || [];
 
-  console.log('result');
-  console.log(pickObj);
-  console.log(week);
-  console.log(weekLosers.includes(pick));
+  // console.log('result');
+  // console.log(pickObj);
+  // console.log(week);
+  // console.log(weekLosers.includes(pick));
 
   return (
     <FormControl
-      id={`entry-${index + 1}`}
+      id={`entry-${bulletCountIndex + 1}`}
       fullWidth
       className="select"
-      disabled={weekLosers.includes(pick)}
     >
-      <InputLabel id={`demo-simple-select-label-${index}`}>
-        {`Entry ${index + 1}`}
+      <InputLabel id={`demo-simple-select-label-${bulletCountIndex}`}>
+        {`Entry ${bulletCountIndex + 1}`}
       </InputLabel>
       <Select
-        {...register(`pick-${index + 1}`)}
-        labelId={`demo-simple-select-label-${index}`}
-        value={team[index]}
-        label={`Entry ${index + 1}`}
+        {...register(`pick-${bulletCountIndex + 1}`)}
+        labelId={`demo-simple-select-label-${bulletCountIndex}`}
+        value={team[bulletCountIndex]}
+        label={`Entry ${bulletCountIndex + 1}`}
         onChange={handleChange}
       >
         {teamsArr?.map((teamOption) => (
@@ -165,6 +166,17 @@ const PickSelect = ({ index, register, team, setTeam, week, user }) => {
       </Select>
     </FormControl>
   );
+};
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
 };
 
 export default function PicksModal({ open, setOpen }) {
