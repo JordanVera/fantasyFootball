@@ -7,12 +7,14 @@ import { Box, Button } from '@mui/material';
 import PicksModal from '../components/PicksModal.jsx';
 import RulesModal from '../components/RulesModal.jsx';
 import MainTable from '../components/MainTable.jsx';
+import BuyBulletsModal from '../components/BuyBulletsModal.jsx';
 import { HomeParticles } from '../components/HomeParticles.jsx';
 
 export default function Dashboard(_) {
   const { user, users, isSuccess } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [openBulletsModal, setOpenBulletsModal] = useState(false);
 
   const scoresStatus = useSelector((state) => state.scores.status);
   const theme = useSelector((state) => state.theme.theme);
@@ -39,6 +41,7 @@ export default function Dashboard(_) {
   );
 
   const handleOpen = () => setOpen(true);
+  const handleOpenBullets = () => setOpenBulletsModal(true);
 
   return (
     <>
@@ -46,6 +49,9 @@ export default function Dashboard(_) {
         <h1>{user?.name}'s Dashboard</h1>
         <Button variant="contained" onClick={handleOpen}>
           Make Picks
+        </Button>
+        <Button variant="contained" onClick={handleOpenBullets}>
+          Buy Bullets
         </Button>
         <RulesModal />
         <p>
@@ -61,6 +67,11 @@ export default function Dashboard(_) {
         </p>
       </Box>
       <PicksModal open={open} setOpen={setOpen} />
+      <BuyBulletsModal
+        open={openBulletsModal}
+        setOpenBulletsModal={setOpenBulletsModal}
+        onClose={(_) => setOpenBulletsModal(false)}
+      />
 
       <MainTable />
 
