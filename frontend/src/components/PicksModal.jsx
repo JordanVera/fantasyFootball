@@ -38,6 +38,7 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
       console.log('selected option: ', selectedOption);
       console.log('picksByIndex: ', picksByIndex[pickKey]);
 
+      // Check if the user has already made that selection for the current entry
       if (selectedOption && picksByIndex[pickKey]?.includes(selectedOption)) {
         console.log(
           `Option ${selectedOption} already selected in another pick.`
@@ -75,14 +76,6 @@ const WeekAccordion = ({ week, user, picksByIndex }) => {
 
     navigate('/dashboard');
   };
-
-  // const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
-  // const pick = pickObj ? pickObj[`week-${week}`][`pick-${index}`] : '';
-
-  // const weekKey = `week${week}`;
-  // const weekLosers = losers[weekKey] || []; // Ensure that `losers[weekKey]` is defined or set it as an empty array
-
-  // weekLosers.includes(pick) ? 'wrongSelection' : '';
 
   return (
     <Accordion key={week} className="accordion">
@@ -131,22 +124,20 @@ const PickSelect = ({
 
   const { losers } = useSelector((state) => state.scores);
 
-  // const pickObj = user.picks.find((pick) => pick[`week-${week}`]);
-  // const pick = pickObj ? pickObj[`week-${week}`][`pick-${index + 1}`] : '';
-
-  // const weekKey = `week${week}`;
-  // const weekLosers = losers[weekKey] || [];
-
-  // console.log('result');
-  // console.log(pickObj);
-  // console.log(week);
-  // console.log(weekLosers.includes(pick));
-
+  // Determine if there is a bad selection in any previous week for this entry
+  let hasBadPreviousSelection = false;
+  for (let prevWeek = 1; prevWeek < week; prevWeek++) {
+    if (losers[`week${prevWeek}`]?.includes(team[bulletCountIndex])) {
+      hasBadPreviousSelection = true;
+      break; // Exit the loop if a bad selection is found
+    }
+  }
   return (
     <FormControl
       id={`entry-${bulletCountIndex + 1}`}
       fullWidth
       className="select"
+      disabled={hasBadPreviousSelection}
     >
       <InputLabel id={`demo-simple-select-label-${bulletCountIndex}`}>
         {`Entry ${bulletCountIndex + 1}`}
@@ -166,17 +157,6 @@ const PickSelect = ({
       </Select>
     </FormControl>
   );
-};
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
 };
 
 export default function PicksModal({ open, setOpen }) {
@@ -232,3 +212,14 @@ export default function PicksModal({ open, setOpen }) {
     </Modal>
   );
 }
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};

@@ -9,7 +9,7 @@ import RulesModal from '../components/RulesModal.jsx';
 import MainTable from '../components/MainTable.jsx';
 import { HomeParticles } from '../components/HomeParticles.jsx';
 
-export default function Dashboard() {
+export default function Dashboard(_) {
   const { user, users, isSuccess } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
