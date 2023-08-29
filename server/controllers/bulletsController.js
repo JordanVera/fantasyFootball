@@ -27,19 +27,24 @@ function bulletsRepo() {
 
   // This controller gets used in userController in postRegister controller
   // when a user signs up it creates a customer in COIMQVEST api
-  function createCustomer(customerObj) {
-    return new Promise((resolve, reject) => {
-      client.post('/customer', customerObj, (response) => {
-        console.log(response.status);
-        console.log(response.data);
-        if (response.status !== 200) {
-          console.log('Could not create customer. Inspect above log entry.');
-          return reject();
-        }
-        const { customerId } = response.data;
-        resolve(customerId);
-      });
-    });
+  async function createCustomer(customerObj) {
+    try {
+      const response = await client.post('/customer', customerObj);
+
+      console.log(response.status);
+      console.log(response.data);
+
+      if (response.status !== 200) {
+        console.log('Could not create customer. Inspect above log entry.');
+        throw new Error('Could not create customer');
+      }
+
+      const { customerId } = response.data;
+      return customerId;
+    } catch (error) {
+      console.error('Error creating customer:', error.message);
+      throw error; // Re-throw the error to be caught by the caller
+    }
   }
 
   function buyBullet(req, res, next) {

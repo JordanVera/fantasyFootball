@@ -107,9 +107,7 @@ export default function Login() {
           No Account? Register
         </Link>
       </section>
-      <section className="particles">
-        <HomeParticles />
-      </section>
+      <section className="particles">{/* <HomeParticles /> */}</section>
     </>
   );
 }

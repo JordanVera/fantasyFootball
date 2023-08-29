@@ -136,9 +136,7 @@ export default function Register() {
         </form>
       </section>
 
-      <section className="particles">
-        <HomeParticles />
-      </section>
+      <section className="particles">{/* <HomeParticles /> */}</section>
     </>
   );
 }

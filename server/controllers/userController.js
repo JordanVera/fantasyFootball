@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const bulletRepo = require('../controllers/bulletsController');
 const User = require('../models/userModel');
 const { errorMonitor } = require('events');
 
@@ -32,6 +33,17 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
+  // Create a customer in the Coinqvest API
+  const customerId = await bulletRepo.createCustomer({
+    customer: {
+      email: user.email,
+    },
+  });
+
+  user.customerId = customerId;
+
+  await user.save();
+
   if (user) {
     return res.status(201).json({
       _id: user._id,
@@ -39,6 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       picks: user.picks,
       bullets: user.bullets,
+      customerId: user.customerId,
       token: generateToken(user._id),
     });
   } else {

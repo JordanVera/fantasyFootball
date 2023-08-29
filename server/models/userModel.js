@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema(
     picks: {
       type: Array,
     },
+    customerId: { type: String },
     isAdmin: {
       type: Boolean,
       defualt: false,
