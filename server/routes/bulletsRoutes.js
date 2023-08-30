@@ -1,9 +1,9 @@
 const express = require('express');
 const controller = require('../controllers/bulletsController');
-
+const { protect } = require('../middleware/auth');
 const router = express.Router();
 
-router.route('/buyBullets').post(controller.buyBullet);
+router.route('/buyBullets').post(protect, controller.buyBullet);
 
 router.route('/hook').post(controller.hook);
 

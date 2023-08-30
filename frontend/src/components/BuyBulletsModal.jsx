@@ -7,8 +7,15 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { BACKEND_URL } from '../config/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 const BuyBulletsModal = ({ open, onClose }) => {
+  const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
+  const { user, users } = useSelector((state) => state.auth);
+
   const options = [];
   for (let i = 1; i <= 20; i++) {
     options.push(
@@ -17,6 +24,14 @@ const BuyBulletsModal = ({ open, onClose }) => {
       </MenuItem>
     );
   }
+
+  const onSubmit = async (data, e) => {
+    e.preventDefault();
+
+    
+    console.log(data.bulletCount);
+    // dispatch({ data, user })
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -79,10 +94,12 @@ const BuyBulletsModal = ({ open, onClose }) => {
             alt="stellarLumensLogo"
           /> */}
         </div>
-        <form method="POST" action="/bullets/buyBullets">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl sx={{ width: '100%', mb: 2 }}>
             <InputLabel>How many bullets do you want?</InputLabel>
-            <Select name="bulletCount">{options}</Select>
+            <Select name="bulletCount" {...register(`bulletCount`)}>
+              {options}
+            </Select>
           </FormControl>
           <Button type="submit" variant="contained" color="primary">
             Save changes

@@ -55,12 +55,38 @@ const makePicks = async (data, user, week) => {
   return response.data;
 };
 
+const buyBullets = async (data, user, week) => {
+  const response = await axios.post(
+    `http://localhost:5555/api/bullets/buyBullets`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+  );
+
+  // update the picks array in localStorage
+  // if (response.data) {
+  //   localStorage.setItem(
+  //     'user',
+  //     JSON.stringify({
+  //       ...user,
+  //       picks: response.data,
+  //     })
+  //   );
+  // }
+
+  return response.data;
+};
+
 const authService = {
   register,
   logout,
   login,
   getUsers,
   makePicks,
+  buyBullets
 };
 
 export default authService;

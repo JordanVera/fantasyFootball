@@ -70,7 +70,7 @@ export default function MainTable() {
   };
 
   return (
-    <TableContainer component={Paper} sx={{ borderRadius: '12px' }}>
+    <TableContainer component={Paper} id="mainTable">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>{createTableHeaders()}</TableRow>

@@ -65,6 +65,18 @@ export const makePicks = createAsyncThunk(
   'auth/makePicks',
   async ({ data, user, week }, thunkAPI) => {
     try {
+      // console.log('USERRR', user);
+      // user.picks =
+      return await authService.makePicks(data, user, week);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message || error.toString());
+    }
+  }
+);
+export const buyBullets = createAsyncThunk(
+  'auth/buyBullets',
+  async ({ data, user, week }, thunkAPI) => {
+    try {
       console.log('USERRR', user);
       // user.picks =
       return await authService.makePicks(data, user, week);
@@ -148,6 +160,22 @@ export const authSlice = createSlice({
         };
       })
       .addCase(makePicks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(buyBullets.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(buyBullets.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = {
+          ...state.user,
+          bullets: action.payload,
+        };
+      })
+      .addCase(buyBullets.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

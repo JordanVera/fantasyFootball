@@ -48,6 +48,9 @@ function bulletsRepo() {
   }
 
   function buyBullet(req, res, next) {
+    console.log('req.user');
+    console.log(req.user);
+
     const chargeObj = {
       charge: {
         customerId: req.user.customerId,

@@ -1,5 +1,5 @@
+export const BACKEND_URL = 'http://localhost:5555';
 export const NUMBER_OF_WEEKS_IN_NFL = 22;
-
 export const teamsArr = [
   'ARI',
   'ATL',
