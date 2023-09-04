@@ -79,7 +79,7 @@ export const buyBullets = createAsyncThunk(
     try {
       console.log('USERRR', user);
       // user.picks =
-      return await authService.makePicks(data, user, week);
+      return await authService.buyBullets(data, user, week);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message || error.toString());
     }

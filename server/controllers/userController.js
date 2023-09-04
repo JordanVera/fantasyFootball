@@ -76,6 +76,7 @@ const loginUser = asyncHandler(async (req, res) => {
       picks: user.picks,
       bullets: user.bullets,
       token: generateToken(user._id),
+      customerId: user.customerId,
     });
   } else {
     res.status(401);

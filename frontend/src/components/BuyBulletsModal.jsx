@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,11 +10,17 @@ import InputLabel from '@mui/material/InputLabel';
 import { BACKEND_URL } from '../config/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { buyBullets } from '../features/auth/authSlice';
 
 const BuyBulletsModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const { user, users } = useSelector((state) => state.auth);
+
+  // useEffect(() => {
+  //   console.log('user');
+  //   console.log(user);
+  // }, []);
 
   const options = [];
   for (let i = 1; i <= 20; i++) {
@@ -28,9 +34,8 @@ const BuyBulletsModal = ({ open, onClose }) => {
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
-    
+    dispatch(buyBullets({ data, user }));
     console.log(data.bulletCount);
-    // dispatch({ data, user })
   };
 
   return (

@@ -18,11 +18,10 @@ const updateUserBullets = async (userId, quantity) => {
 function bulletsRepo() {
   const client = new CoinqvestClient(process.env.PUBLIC, process.env.PRIVATE);
 
-  function testAuth() {
-    client.get('/auth-test', null, (response) => {
-      console.log(response.status);
-      console.log(response.data);
-    });
+  async function testAuth(req, res) {
+    const response = await client.get('/auth-test', null);
+
+    return res.json({ status: response.status, data: response.data, client });
   }
 
   // This controller gets used in userController in postRegister controller
@@ -47,9 +46,9 @@ function bulletsRepo() {
     }
   }
 
-  function buyBullet(req, res, next) {
-    console.log('req.user');
-    console.log(req.user);
+  async function buyBullet(req, res, next) {
+    // console.log('req.user');
+    // console.log(req.user);
 
     const chargeObj = {
       charge: {
@@ -63,10 +62,10 @@ function bulletsRepo() {
           },
         ],
       },
-      webhook: `${process.env.WEBHOOK}/bullets/hook`,
+      // webhook: `${process.env.WEBHOOK}/bullets/hook`,
       links: {
-        returnUrl: `https://fantasy--football.herokuapp.com/dashboard`,
-        cancelUrl: `https://fantasy--football.herokuapp.com/dashboard`,
+        returnUrl: `http://127.0.0.1:5173/dashboard`,
+        cancelUrl: `http://127.0.0.1:5173/dashboard`,
       },
       pageSettings: {
         displaySellerInfo: false,
@@ -75,7 +74,12 @@ function bulletsRepo() {
       settlementCurrency: 'USD',
     };
 
-    client.post('/checkout/hosted', chargeObj, (response) => {
+    console.log(chargeObj);
+    console.log(chargeObj.charge.lineItems);
+
+    try {
+      const response = await client.post('/checkout/hosted', chargeObj);
+
       console.log(response.status);
       console.log(response.data);
 
@@ -89,8 +93,12 @@ function bulletsRepo() {
       const { checkoutId } = response.data; // store this persistently in your database
       const { url } = response.data; // redirect your customer to this URL to complete the payment
 
-      res.redirect(url);
-    });
+      return res.json({ data: response.data });
+    } catch (error) {
+      console.log(error);
+
+      res.json({ error });
+    }
   }
 
   function hook(req, res, next) {

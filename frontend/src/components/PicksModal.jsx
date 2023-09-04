@@ -170,7 +170,7 @@ export default function PicksModal({ open, setOpen }) {
     const userPicks = user?.picks;
 
     if (userPicks) {
-      console.log({ userPicks });
+      // console.log({ userPicks });
       const userPicksDS = userPicks.reduce((acc, pick) => {
         const picks = Object.values(pick)[0]; // Get the picks object
 
