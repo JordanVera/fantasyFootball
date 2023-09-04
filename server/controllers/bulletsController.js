@@ -74,9 +74,6 @@ function bulletsRepo() {
       settlementCurrency: 'USD',
     };
 
-    console.log(chargeObj);
-    console.log(chargeObj.charge.lineItems);
-
     try {
       const response = await client.post('/checkout/hosted', chargeObj);
 

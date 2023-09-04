@@ -77,8 +77,6 @@ export const buyBullets = createAsyncThunk(
   'auth/buyBullets',
   async ({ data, user, week }, thunkAPI) => {
     try {
-      console.log('USERRR', user);
-      // user.picks =
       return await authService.buyBullets(data, user, week);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message || error.toString());

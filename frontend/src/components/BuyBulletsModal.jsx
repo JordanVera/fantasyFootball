@@ -9,11 +9,13 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { BACKEND_URL } from '../config/constants';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { buyBullets } from '../features/auth/authSlice';
 
 const BuyBulletsModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const { user, users } = useSelector((state) => state.auth);
 
@@ -34,8 +36,20 @@ const BuyBulletsModal = ({ open, onClose }) => {
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
-    dispatch(buyBullets({ data, user }));
-    console.log(data.bulletCount);
+    try {
+      const response = await dispatch(buyBullets({ data, user }));
+
+      console.log('respomse');
+      console.log(response.payload);
+      // Check if the API response contains a URL for redirection
+      if (response && response.payload.data.url) {
+        console.log('Redirecting to:', response.payload.data.url);
+        window.location.href = response.payload.data.url;
+      }
+    } catch (error) {
+      // Handle errors here
+      console.log(error);
+    }
   };
 
   return (
