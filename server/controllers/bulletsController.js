@@ -62,7 +62,8 @@ function bulletsRepo() {
           },
         ],
       },
-      // webhook: `${process.env.WEBHOOK}/bullets/hook`,
+      webhook:
+        'https://0812-2600-1702-38d0-8630-25ba-29a2-83da-52b1.ngrok-free.app',
       links: {
         returnUrl: `http://127.0.0.1:5173/dashboard`,
         cancelUrl: `http://127.0.0.1:5173/dashboard`,

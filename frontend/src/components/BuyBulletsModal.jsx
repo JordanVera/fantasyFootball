@@ -38,12 +38,8 @@ const BuyBulletsModal = ({ open, onClose }) => {
 
     try {
       const response = await dispatch(buyBullets({ data, user }));
-
-      console.log('respomse');
-      console.log(response.payload);
       // Check if the API response contains a URL for redirection
       if (response && response.payload.data.url) {
-        console.log('Redirecting to:', response.payload.data.url);
         window.location.href = response.payload.data.url;
       }
     } catch (error) {

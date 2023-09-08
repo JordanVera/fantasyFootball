@@ -124,20 +124,17 @@ const PickSelect = ({
 
   const { losers } = useSelector((state) => state.scores);
 
-  // Determine if there is a bad selection in any previous week for this entry
-  let hasBadPreviousSelection = false;
-  for (let prevWeek = 1; prevWeek < week; prevWeek++) {
-    if (losers[`week${prevWeek}`]?.includes(team[bulletCountIndex])) {
-      hasBadPreviousSelection = true;
-      break; // Exit the loop if a bad selection is found
-    }
-  }
+  // Determine if there is a bad selection for this entry
+  const hasBadSelection = losers[`week${week}`]?.includes(
+    team[bulletCountIndex]
+  );
+
   return (
     <FormControl
       id={`entry-${bulletCountIndex + 1}`}
       fullWidth
       className="select"
-      disabled={hasBadPreviousSelection}
+      disabled={hasBadSelection}
     >
       <InputLabel id={`demo-simple-select-label-${bulletCountIndex}`}>
         {`Entry ${bulletCountIndex + 1}`}
